@@ -125,4 +125,15 @@ func main() {
 	fmt.Printf("(%v, %T)\n", i, i)
 	i = "hoge"
 	fmt.Printf("(%v, %T)\n", i, i)
+
+	// Type Assertion
+	h := a2.(*Vertex)	// a2.(vertex) will fail
+	fmt.Println(h)
+
+	s, ok := i.(string)
+	fmt.Println(s, ok)
+
+	//f2 := i.(float64) // Panic will occur because interface is string type
+	f2, ok := i.(float64) // by adding second output, you can avoid panic
+	fmt.Println(f2)
 }
