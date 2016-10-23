@@ -66,6 +66,12 @@ func (f MyFloat) Abs() float64 {
 
 func main() {
 	v := Vertex{X:3, Y:4}
+
+	var p *Vertex	// pointer to Vertex value
+	p = &v //	& operator generates a pointer
+	fmt.Println(*p)	// read through pointer
+	fmt.Println(*p)	// read through pointer
+
 	fmt.Println(v.Abs())
 	fmt.Println(AbsFunc(v)) // AbsFunc(&v) will Fail
 	v.Scale(10)    // Go interprets as (&v).Scale(10)
