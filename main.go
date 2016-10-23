@@ -5,10 +5,15 @@ import (
 	"fmt"
 )
 
-
 /*
-	Methods
+	Interface
  */
+// Golang Interface is implicit. You do not declare "implements"
+// Can appear in any package without prearrangement.
+type Abser interface {
+	Abs() float64
+}
+
 type Vertex struct {
 	X, Y float64
 }
@@ -16,13 +21,17 @@ type Vertex struct {
 /*
 	Ingeneral, all methos on given type should have either value/pointer receivers/
 */
-// Value method
-func (v Vertex) Abs() float64 {
+// pointer type method
+func (v *Vertex) Abs() float64 {
+	if v == nil { // Handling nil receiver. this should be in method
+		fmt.Println("<pointer t is nill>")
+		return 0
+	}
 	return math.Sqrt(v.X * v.X + v.Y * v.Y)
 }
 
-// Pointer receivers method
-func (v *Vertex) AbsHoge() float64 {
+// value type method
+func (v Vertex) AbsHoge() float64 {
 	return math.Sqrt(v.X * v.X + v.Y * v.Y)
 }
 
@@ -31,11 +40,14 @@ func AbsFunc(v Vertex) float64 {
 }
 
 // Methods with pointer receivers can modify the value to which the receiver points
+// pointer type method
 func (v *Vertex) Scale(f float64) {
 	v.X = v.X * f
 	v.Y = v.Y * f
 }
 
+// Not recommended way to change type. It takes longer processing time
+// Use value type method OR pointer type method
 func ScaleFunc(v *Vertex, f float64) {
 	v.X = v.X * f
 	v.Y = v.Y * f
@@ -49,10 +61,6 @@ func (f MyFloat) Abs() float64 {
 		return float64(-f)
 	}
 	return float64(f)
-}
-
-type Abser interface {
-	Abs() float64
 }
 
 func main() {
@@ -77,5 +85,22 @@ func main() {
 	var a Abser
 	f = MyFloat(-math.Sqrt2)
 	a = f
+	fmt.Printf("(%v, %T)\n", a, a) // <- Type is main.MyFloat
 	fmt.Println(a.Abs())
+	//a = v					// This will return error bc Vertex's Abs method is pointer type
+	a = &v
+	fmt.Printf("(%v, %T)\n", a, a) // <- Type is *main.Vertex
+	fmt.Println(a.Abs())
+	a = MyFloat(math.Ln10)
+	fmt.Println(a.Abs())
+
+	var a2 Abser
+	var v2 *Vertex
+	a2 = v2
+	fmt.Printf("(%v, %T)\n", a2, a2)
+	fmt.Println(a2.Abs())
+
+	a2 = &Vertex{X:2, Y:3}
+	fmt.Printf("(%v, %T)\n", a2, a2)
+	fmt.Println(a2.Abs())
 }
