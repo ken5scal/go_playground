@@ -21,7 +21,13 @@ func Abs(v Vertex) float64 {
 	return math.Sqrt(v.X * v.X + v.Y * v.Y)
 }
 
+// Methods with pointer receivers can modify the value to which the receiver points
 func (v *Vertex) Scale(f float64) {
+	v.X = v.X * f
+	v.Y = v.Y * f
+}
+
+func Scale(v *Vertex, f float64) {
 	v.X = v.X * f
 	v.Y = v.Y * f
 }
@@ -41,6 +47,8 @@ func main() {
 	fmt.Println(v.Abs())
 	fmt.Println(Abs(v))
 	v.Scale(10)
+	fmt.Println(v.Abs())
+	Scale(&v, 10)
 	fmt.Println(v.Abs())
 
 	f := MyFloat(-math.Sqrt2)
