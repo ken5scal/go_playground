@@ -69,8 +69,8 @@ func main() {
 
 	var p *Vertex	// pointer to Vertex value
 	p = &v //	& operator generates a pointer
-	fmt.Println(*p)	// read through pointer
-	fmt.Println(*p)	// read through pointer
+	fmt.Println(*p)	// read through pointer. display {value of Vertex}
+	fmt.Println(p)	// should diplay &{value of Vertex}
 
 	fmt.Println(v.Abs())
 	fmt.Println(AbsFunc(v)) // AbsFunc(&v) will Fail
