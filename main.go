@@ -23,7 +23,8 @@ type Vertex struct {
 */
 // pointer type method
 func (v *Vertex) Abs() float64 {
-	if v == nil { // Handling nil receiver. this should be in method
+	if v == nil {
+		// Handling nil receiver. this should be in method
 		fmt.Println("<pointer t is nill>")
 		return 0
 	}
@@ -84,7 +85,8 @@ func main() {
 	 */
 	var a Abser
 	f = MyFloat(-math.Sqrt2)
-	a = f
+	a = f						  // <- Under the food, interface instance holds a value and concrete type
+								// Concrete type is a type of struct assigned to iterface instance
 	fmt.Printf("(%v, %T)\n", a, a) // <- Type is main.MyFloat
 	fmt.Println(a.Abs())
 	//a = v					// This will return error bc Vertex's Abs method is pointer type
@@ -95,6 +97,9 @@ func main() {
 	fmt.Println(a.Abs())
 
 	var a2 Abser
+	fmt.Printf("(%v, %T)\n", a2, a2) // <- At this point, nil interface does not have any value and concrete type
+	// a2.Abs()		will return Run-time error bc no implementation exists at this point
+
 	var v2 *Vertex
 	a2 = v2
 	fmt.Printf("(%v, %T)\n", a2, a2)
