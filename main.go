@@ -69,8 +69,10 @@ func main() {
 
 	var p *Vertex	// pointer to Vertex value
 	p = &v //	& operator generates a pointer
-	fmt.Println(*p)	// read through pointer. display {value of Vertex}
-	fmt.Println(p)	// should diplay &{value of Vertex}
+	fmt.Println(*p)	// read through pointer. display {value of Struct}
+	fmt.Println(p)	// should diplay &{value of Struct}
+	fmt.Println((*p).X) // Formalized way of accessing Struct Field
+	fmt.Println(p.X)	// Golang permits to do this way
 
 	fmt.Println(v.Abs())
 	fmt.Println(AbsFunc(v)) // AbsFunc(&v) will Fail
