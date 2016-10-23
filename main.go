@@ -27,7 +27,7 @@ func (v *Vertex) Scale(f float64) {
 	v.Y = v.Y * f
 }
 
-func Scale(v *Vertex, f float64) {
+func ScaleFunc(v *Vertex, f float64) {
 	v.X = v.X * f
 	v.Y = v.Y * f
 }
@@ -46,9 +46,9 @@ func main() {
 	v := Vertex{X:3, Y:4}
 	fmt.Println(v.Abs())
 	fmt.Println(Abs(v))
-	v.Scale(10)
+	v.Scale(10) 	// Go interprets as (&v).Scale(10)
 	fmt.Println(v.Abs())
-	Scale(&v, 10)
+	ScaleFunc(&v, 10) //ScaleFunc(v, 10) fails
 	fmt.Println(v.Abs())
 
 	f := MyFloat(-math.Sqrt2)
