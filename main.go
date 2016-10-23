@@ -51,6 +51,10 @@ func (f MyFloat) Abs() float64 {
 	return float64(f)
 }
 
+type Abser interface {
+	Abs() float64
+}
+
 func main() {
 	v := Vertex{X:3, Y:4}
 	fmt.Println(v.Abs())
@@ -66,4 +70,12 @@ func main() {
 
 	f := MyFloat(-math.Sqrt2)
 	fmt.Println(f.Abs())
+
+	/*
+		Interfaces
+	 */
+	var a Abser
+	f = MyFloat(-math.Sqrt2)
+	a = f
+	fmt.Println(a.Abs())
 }
