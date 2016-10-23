@@ -109,8 +109,10 @@ func main() {
 	fmt.Printf("(%v, %T)\n", a2, a2)
 	fmt.Println(a2.Abs())
 
+	// Empty interface that hold values of any type
+	// Ex) fmt.Print takes any number of arguments of type interface{}
 	var i interface{}
-	fmt.Printf("(%v, %T)\n", i, i)
+	fmt.Printf("(%v, %T)\n", i, i)  // <nil>, <nil>
 	i = 42
 	fmt.Printf("(%v, %T)\n", i, i)
 	i = "hoge"
