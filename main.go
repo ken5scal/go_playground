@@ -13,11 +13,20 @@ type Vertex struct {
 	X, Y float64
 }
 
+/*
+	Ingeneral, all methos on given type should have either value/pointer receivers/
+*/
+// Value method
 func (v Vertex) Abs() float64 {
 	return math.Sqrt(v.X * v.X + v.Y * v.Y)
 }
 
-func Abs(v Vertex) float64 {
+// Pointer receivers method
+func (v *Vertex) AbsHoge() float64 {
+	return math.Sqrt(v.X * v.X + v.Y * v.Y)
+}
+
+func AbsFunc(v Vertex) float64 {
 	return math.Sqrt(v.X * v.X + v.Y * v.Y)
 }
 
@@ -45,9 +54,13 @@ func (f MyFloat) Abs() float64 {
 func main() {
 	v := Vertex{X:3, Y:4}
 	fmt.Println(v.Abs())
-	fmt.Println(Abs(v))
-	v.Scale(10) 	// Go interprets as (&v).Scale(10)
+	fmt.Println(AbsFunc(v)) // AbsFunc(&v) will Fail
+	v.Scale(10)    // Go interprets as (&v).Scale(10)
+	// (&v).Scale(10) will be fine as well
 	fmt.Println(v.Abs())
+	fmt.Println((&v).Abs()) // Go interprets as (*(&v)).Abs()
+	fmt.Println(v.AbsHoge())
+	fmt.Println((&v).AbsHoge())
 	ScaleFunc(&v, 10) //ScaleFunc(v, 10) fails
 	fmt.Println(v.Abs())
 
