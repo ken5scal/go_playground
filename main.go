@@ -108,4 +108,11 @@ func main() {
 	a2 = &Vertex{X:2, Y:3}
 	fmt.Printf("(%v, %T)\n", a2, a2)
 	fmt.Println(a2.Abs())
+
+	var i interface{}
+	fmt.Printf("(%v, %T)\n", i, i)
+	i = 42
+	fmt.Printf("(%v, %T)\n", i, i)
+	i = "hoge"
+	fmt.Printf("(%v, %T)\n", i, i)
 }
