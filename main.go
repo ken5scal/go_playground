@@ -67,12 +67,12 @@ func (f MyFloat) Abs() float64 {
 func main() {
 	v := Vertex{X:3, Y:4}
 
-	var p *Vertex	// pointer to Vertex value
+	var p *Vertex    // pointer to Vertex value
 	p = &v //	& operator generates a pointer
-	fmt.Println(*p)	// read through pointer. display {value of Struct}
-	fmt.Println(p)	// should diplay &{value of Struct}
+	fmt.Println(*p)    // read through pointer. display {value of Struct}
+	fmt.Println(p)    // should diplay &{value of Struct}
 	fmt.Println((*p).X) // Formalized way of accessing Struct Field
-	fmt.Println(p.X)	// Golang permits to do this way
+	fmt.Println(p.X)    // Golang permits to do this way
 
 	fmt.Println(v.Abs())
 	fmt.Println(AbsFunc(v)) // AbsFunc(&v) will Fail
@@ -93,8 +93,8 @@ func main() {
 	 */
 	var a Abser
 	f = MyFloat(-math.Sqrt2)
-	a = f						  // <- Under the food, interface instance holds a value and concrete type
-								// Concrete type is a type of struct assigned to iterface instance
+	a = f                          // <- Under the food, interface instance holds a value and concrete type
+	// Concrete type is a type of struct assigned to iterface instance
 	fmt.Printf("(%v, %T)\n", a, a) // <- Type is main.MyFloat
 	fmt.Println(a.Abs())
 	//a = v					// This will return error bc Vertex's Abs method is pointer type
@@ -127,7 +127,7 @@ func main() {
 	fmt.Printf("(%v, %T)\n", i, i)
 
 	// Type Assertion
-	h := a2.(*Vertex)	// a2.(vertex) will fail
+	h := a2.(*Vertex)    // a2.(vertex) will fail
 	fmt.Println(h)
 
 	s, ok := i.(string)
@@ -136,4 +136,19 @@ func main() {
 	//f2 := i.(float64) // Panic will occur because interface is string type
 	f2, ok := i.(float64) // by adding second output, you can avoid panic
 	fmt.Println(f2)
+
+	typeSwitch(&Vertex{X:2, Y:3})
+	typeSwitch(MyFloat(math.Sqrt2))
+}
+
+
+func typeSwitch(a Abser) {
+	switch v := a.(type) {	// switch case by the given concrete tpe
+	case *Vertex:
+		fmt.Println("This is Vertex: %v", v)
+	case MyFloat:
+		fmt.Print("This is float: %f", v)
+	default:
+		fmt.Printf("I don't know about type %T!\n", v)
+	}
 }
