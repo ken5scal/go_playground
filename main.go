@@ -60,6 +60,10 @@ func (v Vertex) String() string {
 	return fmt.Sprintf("%v %v", v.X, v.Y)
 }
 
+func (v *Vertex) Error() string {
+	return fmt.Sprint("Oh Error!:%v %v", v.X, v.Y)
+}
+
 type MyFloat float64
 // You can only declare a mehtod with a receiver
 // whose type is defined in hte same package as the method
@@ -150,12 +154,18 @@ func main() {
 	y := Vertex{1, 1}
 	fmt.Println(x, y) // Vertex implements Stringer
 
+	// Another example of Stringers
 	hosts := map[string]IPAddr{
 		"loopback":  {127, 0, 0, 1},
 		"googleDNS": {8, 8, 8, 8},
 	}
 	for name, ip := range hosts {
 		fmt.Printf("%v: %v\n", name, ip)
+	}
+
+
+	if err := runErrorVertex(); err != nil {
+		fmt.Println(err)
 	}
 }
 
@@ -174,4 +184,8 @@ func typeSwitch(a Abser) {
 	default:
 		fmt.Printf("I don't know about type %T!\n", v)
 	}
+}
+
+func runErrorVertex() error {
+	return &Vertex{3, 3} //Implementing Error() by pointery type
 }
