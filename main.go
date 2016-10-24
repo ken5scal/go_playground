@@ -149,6 +149,20 @@ func main() {
 	x := Vertex{3, 3}
 	y := Vertex{1, 1}
 	fmt.Println(x, y) // Vertex implements Stringer
+
+	hosts := map[string]IPAddr{
+		"loopback":  {127, 0, 0, 1},
+		"googleDNS": {8, 8, 8, 8},
+	}
+	for name, ip := range hosts {
+		fmt.Printf("%v: %v\n", name, ip)
+	}
+}
+
+type IPAddr [4]byte
+// Another example of Stringers
+func (i IPAddr) String() string {
+	return fmt.Sprintf("%v.%v.%v.%v", i[0], i[1], i[2], i[3])
 }
 
 func typeSwitch(a Abser) {
