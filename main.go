@@ -54,6 +54,12 @@ func ScaleFunc(v *Vertex, f float64) {
 	v.Y = v.Y * f
 }
 
+// Implements Stringer type interface
+// fmt package look for this interface to PRINT values
+func (v Vertex) String() string {
+	return fmt.Sprintf("%v %v", v.X, v.Y)
+}
+
 type MyFloat float64
 // You can only declare a mehtod with a receiver
 // whose type is defined in hte same package as the method
@@ -139,15 +145,18 @@ func main() {
 
 	typeSwitch(&Vertex{X:2, Y:3})
 	typeSwitch(MyFloat(math.Sqrt2))
+
+	x := Vertex{3, 3}
+	y := Vertex{1, 1}
+	fmt.Println(x, y) // Vertex implements Stringer
 }
 
-
 func typeSwitch(a Abser) {
-	switch v := a.(type) {	// switch case by the given concrete tpe
+	switch v := a.(type) {    // switch case by the given concrete tpe
 	case *Vertex:
-		fmt.Println("This is Vertex: %v", v)
+		fmt.Printf("This is Vertex: %v \n", v)
 	case MyFloat:
-		fmt.Print("This is float: %f", v)
+		fmt.Printf("This is float: %v \n", v)
 	default:
 		fmt.Printf("I don't know about type %T!\n", v)
 	}
