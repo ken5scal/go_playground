@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"strings"
 	"io"
+	"golang.org/x/tour/reader"
 )
 
 /*
@@ -165,7 +166,6 @@ func main() {
 		fmt.Printf("%v: %v\n", name, ip)
 	}
 
-
 	if err := runErrorVertex(); err != nil {
 		fmt.Println(err)
 	}
@@ -179,10 +179,13 @@ func main() {
 		n, err := r.Read(b) // Popoulates given byte slice of data
 		fmt.Printf("n = %v err = %v b = %v\n", n, err, b)
 		fmt.Printf("b[:n] = %q\n", b[:n])
-		if err == io.EOF{ // End of stream
+		if err == io.EOF {
+			// End of stream
 			break
 		}
 	}
+
+	reader.Validate(MyReader{})
 }
 
 type IPAddr [4]byte
@@ -208,6 +211,7 @@ func runErrorVertex() error {
 
 // Example of Error type
 type ErrNegativeSqrt float64
+
 func (e ErrNegativeSqrt) Error() string {
 	// You need to convert e to float64(e) because
 	// fmt.Sprintf(%v, e) will call e.Error and, inside Error(), ErrNegativeSqrt calls Sprintf(e),
@@ -220,4 +224,13 @@ func Sqrt(x float64) (float64, error) {
 		return 0, ErrNegativeSqrt(-2)
 	}
 	return 0, nil
+}
+
+type MyReader struct{}
+
+func (r MyReader) Read(b []byte) (int, error) {
+	for x := range b {
+		b[x] = 'A'
+	}
+	return len(b), nil
 }
