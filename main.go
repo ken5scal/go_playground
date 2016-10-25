@@ -196,6 +196,9 @@ func main() {
 	go say("world")
 	say("hello")
 
+	/*
+		Concurrencies
+	 */
 	say := []int{7, 2, 8, -9, 4, 0}
 	// Channel needs declaration
 	c := make(chan int)
@@ -205,6 +208,11 @@ func main() {
 	go sum(say[len(say) / 2:], c)
 	x1, y1 := <-c, <-c	// receives from channel
 	fmt.Println(x1, y1, x1 + y1) // wait until both goroutines complete
+
+	c = make(chan int, 2) // channel can be set buffer size
+	c <- 1; c <-2; // c <-3 Another c<-int will result in DEAD LOACK
+	fmt.Println(<-c)
+	fmt.Println(<-c)
 }
 
 func sum(s []int, c chan int) {
