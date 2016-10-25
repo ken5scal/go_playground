@@ -7,6 +7,7 @@ import (
 	"io"
 	"golang.org/x/tour/reader"
 	"time"
+	"strconv"
 )
 
 /*
@@ -206,13 +207,33 @@ func main() {
 	// Synchronize gorouine
 	go sum(say[:len(say) / 2], c) // sum number sis sent to channel
 	go sum(say[len(say) / 2:], c)
-	x1, y1 := <-c, <-c	// receives from channel
+	x1, y1 := <-c, <-c    // receives from channel
 	fmt.Println(x1, y1, x1 + y1) // wait until both goroutines complete
 
 	c = make(chan int, 2) // channel can be set buffer size
-	c <- 1; c <-2; // c <-3 Another c<-int will result in DEAD LOACK
+	c <- 1; c <- 2; // c <-3 Another c<-int will result in DEAD LOACK
 	fmt.Println(<-c)
 	fmt.Println(<-c)
+
+	c = make(chan int, 5)
+	fmt.Print("Fibonacci Ex: ")
+	go fibonacci(cap(c), c)
+	for i := range c {
+		// i, ok := <- c
+		// ok will be false if there are no more values to receive
+		fmt.Print(strconv.Itoa(i) + " ")
+	}
+}
+
+func fibonacci(n int, c chan int) {
+	x, y := 0, 1
+	for i := 0; i < n; i++ {
+		c <- x
+		x, y = y, x + y
+	}
+	// Sender can close CHannel and notify that no more values
+	// will be sent.
+	close(c)
 }
 
 func sum(s []int, c chan int) {
