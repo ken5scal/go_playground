@@ -6,6 +6,7 @@ import (
 	"strings"
 	"io"
 	"golang.org/x/tour/reader"
+	"time"
 )
 
 /*
@@ -186,6 +187,21 @@ func main() {
 	}
 
 	reader.Validate(MyReader{})
+
+	// goroutine is a ligthweight threat
+	// `go func()` starts a new goroutine with func()
+	// Evaluation of func() is in the current go routine
+	// but Execution will be in place of new goroutine
+	// It runs in SAME memory space
+	go say("world")
+	say("hello")
+}
+
+func say(s string) {
+	for i := 0; i < 5; i++ {
+		time.Sleep(100 * time.Millisecond)
+		fmt.Println(s)
+	}
 }
 
 type IPAddr [4]byte
