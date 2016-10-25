@@ -8,6 +8,7 @@ import (
 	"golang.org/x/tour/reader"
 	"time"
 	"strconv"
+	"sync"
 )
 
 /*
@@ -234,6 +235,33 @@ func main() {
 		quit <- 0
 	}()
 	fibonacci2(c, quit)
+
+	// You don;t need to use channel if we just want to make sure
+	// only one goruotine can access avariable at a time
+	// -> MUTUAL EXCLUSION
+	c2 := SafeCounter{v: make(map[string]int)}
+	for i := 0; i < 1000; i++ {
+		go c2.Inc("hoge")
+	}
+	time.Sleep(time.Millisecond)
+	fmt.Println(c2.Value("hoge"))
+}
+
+type SafeCounter struct {
+	v   map[string]int
+	mux sync.Mutex
+}
+
+func (c *SafeCounter) Inc(key string) {
+	c.mux.Lock()    // Lock so only one goroutine at a time can access here
+	defer c.mux.Unlock()
+	c.v[key]++
+}
+
+func (c *SafeCounter) Value(key string) int {
+	c.mux.Lock()    // Lock so only one goroutine at a time can access here
+	defer c.mux.Unlock()
+	return c.v[key]
 }
 
 func fibonacci(n int, c chan int) {
@@ -259,9 +287,9 @@ func fibonacci2(c, quit chan int) {
 			fmt.Println("Quit")
 			return
 		default:
-			// run if no other case is ready
-			// can use to send/receive without blocking
-			// in this case, . will be printed wheneve there is no other channel is ready
+		// run if no other case is ready
+		// can use to send/receive without blocking
+		// in this case, . will be printed wheneve there is no other channel is ready
 			fmt.Print(".")
 		}
 	}
