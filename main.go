@@ -167,6 +167,9 @@ func main() {
 	if err := runErrorVertex(); err != nil {
 		fmt.Println(err)
 	}
+
+	fmt.Println(Sqrt(2))
+	fmt.Println(Sqrt(-2))
 }
 
 type IPAddr [4]byte
@@ -188,4 +191,20 @@ func typeSwitch(a Abser) {
 
 func runErrorVertex() error {
 	return &Vertex{3, 3} //Implementing Error() by pointery type
+}
+
+// Example of Error type
+type ErrNegativeSqrt float64
+func (e ErrNegativeSqrt) Error() string {
+	// You need to convert e to float64(e) because
+	// fmt.Sprintf(%v, e) will call e.Error and, inside Error(), ErrNegativeSqrt calls Sprintf(e),
+	// So it results in infinite loop
+	return fmt.Sprintf("cannot Sqrt negative num: %v", float64(e))
+}
+
+func Sqrt(x float64) (float64, error) {
+	if x < 0 {
+		return 0, ErrNegativeSqrt(-2)
+	}
+	return 0, nil
 }
