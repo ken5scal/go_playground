@@ -230,7 +230,6 @@ func main() {
 	go func() {
 		for i := 0; i < 5; i++ {
 			fmt.Print(<-c)
-			fmt.Print(" ")
 		}
 		quit <- 0
 	}()
@@ -259,6 +258,11 @@ func fibonacci2(c, quit chan int) {
 		case <-quit:
 			fmt.Println("Quit")
 			return
+		default:
+			// run if no other case is ready
+			// can use to send/receive without blocking
+			// in this case, . will be printed wheneve there is no other channel is ready
+			fmt.Print(".")
 		}
 	}
 }
