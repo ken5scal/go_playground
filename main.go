@@ -223,6 +223,18 @@ func main() {
 		// ok will be false if there are no more values to receive
 		fmt.Print(strconv.Itoa(i) + " ")
 	}
+
+	fmt.Print("\nFibonacci2 Ex: ")
+	c = make(chan int)
+	quit := make(chan int)
+	go func() {
+		for i := 0; i < 5; i++ {
+			fmt.Print(<-c)
+			fmt.Print(" ")
+		}
+		quit <- 0
+	}()
+	fibonacci2(c, quit)
 }
 
 func fibonacci(n int, c chan int) {
@@ -234,6 +246,21 @@ func fibonacci(n int, c chan int) {
 	// Sender can close CHannel and notify that no more values
 	// will be sent.
 	close(c)
+}
+
+func fibonacci2(c, quit chan int) {
+	x, y := 0, 1
+	for {
+		select {
+		// Blocks until one of its cases can run
+		// Chooses a channel at random if multiple are ready
+		case c <- x:
+			x, y = y, y + x
+		case <-quit:
+			fmt.Println("Quit")
+			return
+		}
+	}
 }
 
 func sum(s []int, c chan int) {
