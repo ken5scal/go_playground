@@ -3,6 +3,8 @@ package main
 import (
 	"math"
 	"fmt"
+	"strings"
+	"io"
 )
 
 /*
@@ -170,6 +172,17 @@ func main() {
 
 	fmt.Println(Sqrt(2))
 	fmt.Println(Sqrt(-2))
+
+	r := strings.NewReader("Hello, Reader!")
+	b := make([]byte, 8)
+	for {
+		n, err := r.Read(b) // Popoulates given byte slice of data
+		fmt.Printf("n = %v err = %v b = %v\n", n, err, b)
+		fmt.Printf("b[:n] = %q\n", b[:n])
+		if err == io.EOF{ // End of stream
+			break
+		}
+	}
 }
 
 type IPAddr [4]byte
