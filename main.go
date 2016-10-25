@@ -195,6 +195,24 @@ func main() {
 	// It runs in SAME memory space
 	go say("world")
 	say("hello")
+
+	say := []int{7, 2, 8, -9, 4, 0}
+	// Channel needs declaration
+	c := make(chan int)
+	// sends and receives block until the other side is ready
+	// Synchronize gorouine
+	go sum(say[:len(say) / 2], c) // sum number sis sent to channel
+	go sum(say[len(say) / 2:], c)
+	x1, y1 := <-c, <-c	// receives from channel
+	fmt.Println(x1, y1, x1 + y1) // wait until both goroutines complete
+}
+
+func sum(s []int, c chan int) {
+	sum := 0
+	for _, v := range s {
+		sum += v
+	}
+	c <- sum // send sum to channel
 }
 
 func say(s string) {
