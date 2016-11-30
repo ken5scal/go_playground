@@ -2,13 +2,13 @@ package main
 
 import (
 	"math"
-	"fmt"
 	"strings"
 	"io"
 	"golang.org/x/tour/reader"
 	"time"
 	"strconv"
 	"sync"
+	"fmt"
 )
 
 /*
@@ -355,4 +355,11 @@ func (r MyReader) Read(b []byte) (int, error) {
 		b[x] = 'A'
 	}
 	return len(b), nil
+}
+
+type PingPongPayload struct {
+	Counter int
+}
+func ExamplePingPong() {
+
 }
