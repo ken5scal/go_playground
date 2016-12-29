@@ -1,19 +1,19 @@
 package main
 
 import (
-	"math"
-	"strings"
-	"io"
-	"golang.org/x/tour/reader"
-	"time"
-	"strconv"
-	"sync"
 	"fmt"
+	"golang.org/x/tour/reader"
+	"io"
+	"math"
+	"strconv"
+	"strings"
+	"sync"
+	"time"
 )
 
 /*
 	Interface
- */
+*/
 // Golang Interface is implicit. You do not declare "implements"
 // Can appear in any package without prearrangement.
 type Abser interface {
@@ -34,16 +34,16 @@ func (v *Vertex) Abs() float64 {
 		fmt.Println("<pointer t is nill>")
 		return 0
 	}
-	return math.Sqrt(v.X * v.X + v.Y * v.Y)
+	return math.Sqrt(v.X*v.X + v.Y*v.Y)
 }
 
 // value type method
 func (v Vertex) AbsHoge() float64 {
-	return math.Sqrt(v.X * v.X + v.Y * v.Y)
+	return math.Sqrt(v.X*v.X + v.Y*v.Y)
 }
 
 func AbsFunc(v Vertex) float64 {
-	return math.Sqrt(v.X * v.X + v.Y * v.Y)
+	return math.Sqrt(v.X*v.X + v.Y*v.Y)
 }
 
 // Methods with pointer receivers can modify the value to which the receiver points
@@ -71,6 +71,7 @@ func (v *Vertex) Error() string {
 }
 
 type MyFloat float64
+
 // You can only declare a mehtod with a receiver
 // whose type is defined in hte same package as the method
 func (f MyFloat) Abs() float64 {
@@ -81,18 +82,18 @@ func (f MyFloat) Abs() float64 {
 }
 
 func main() {
-	v := Vertex{X:3, Y:4}
+	v := Vertex{X: 3, Y: 4}
 
-	var p *Vertex    // pointer to Vertex value
-	p = &v //	& operator generates a pointer
-	fmt.Println(*p)    // read through pointer. display {value of Struct}
-	fmt.Println(p)    // should diplay &{value of Struct}
+	var p *Vertex       // pointer to Vertex value
+	p = &v              //	& operator generates a pointer
+	fmt.Println(*p)     // read through pointer. display {value of Struct}
+	fmt.Println(p)      // should diplay &{value of Struct}
 	fmt.Println((*p).X) // Formalized way of accessing Struct Field
 	fmt.Println(p.X)    // Golang permits to do this way
 
 	fmt.Println(v.Abs())
 	fmt.Println(AbsFunc(v)) // AbsFunc(&v) will Fail
-	v.Scale(10)    // Go interprets as (&v).Scale(10)
+	v.Scale(10)             // Go interprets as (&v).Scale(10)
 	// (&v).Scale(10) will be fine as well
 	fmt.Println(v.Abs())
 	fmt.Println((&v).Abs()) // Go interprets as (*(&v)).Abs()
@@ -106,10 +107,10 @@ func main() {
 
 	/*
 		Interfaces
-	 */
+	*/
 	var a Abser
 	f = MyFloat(-math.Sqrt2)
-	a = f                          // <- Under the food, interface instance holds a value and concrete type
+	a = f // <- Under the food, interface instance holds a value and concrete type
 	// Concrete type is a type of struct assigned to iterface instance
 	fmt.Printf("(%v, %T)\n", a, a) // <- Type is main.MyFloat
 	fmt.Println(a.Abs())
@@ -129,21 +130,21 @@ func main() {
 	fmt.Printf("(%v, %T)\n", a2, a2)
 	fmt.Println(a2.Abs())
 
-	a2 = &Vertex{X:2, Y:3}
+	a2 = &Vertex{X: 2, Y: 3}
 	fmt.Printf("(%v, %T)\n", a2, a2)
 	fmt.Println(a2.Abs())
 
 	// Empty interface that hold values of any type
 	// Ex) fmt.Print takes any number of arguments of type interface{}
 	var i interface{}
-	fmt.Printf("(%v, %T)\n", i, i)  // <nil>, <nil>
+	fmt.Printf("(%v, %T)\n", i, i) // <nil>, <nil>
 	i = 42
 	fmt.Printf("(%v, %T)\n", i, i)
 	i = "hoge"
 	fmt.Printf("(%v, %T)\n", i, i)
 
 	// Type Assertion
-	h := a2.(*Vertex)    // a2.(vertex) will fail
+	h := a2.(*Vertex) // a2.(vertex) will fail
 	fmt.Println(h)
 
 	s, ok := i.(string)
@@ -153,7 +154,7 @@ func main() {
 	f2, ok := i.(float64) // by adding second output, you can avoid panic
 	fmt.Println(f2)
 
-	typeSwitch(&Vertex{X:2, Y:3})
+	typeSwitch(&Vertex{X: 2, Y: 3})
 	typeSwitch(MyFloat(math.Sqrt2))
 
 	x := Vertex{3, 3}
@@ -200,19 +201,20 @@ func main() {
 
 	/*
 		Concurrencies
-	 */
+	*/
 	say := []int{7, 2, 8, -9, 4, 0}
 	// Channel needs declaration
 	c := make(chan int)
 	// sends and receives block until the other side is ready
 	// Synchronize gorouine
-	go sum(say[:len(say) / 2], c) // sum number sis sent to channel
-	go sum(say[len(say) / 2:], c)
-	x1, y1 := <-c, <-c    // receives from channel
-	fmt.Println(x1, y1, x1 + y1) // wait until both goroutines complete
+	go sum(say[:len(say)/2], c) // sum number sis sent to channel
+	go sum(say[len(say)/2:], c)
+	x1, y1 := <-c, <-c         // receives from channel
+	fmt.Println(x1, y1, x1+y1) // wait until both goroutines complete
 
 	c = make(chan int, 2) // channel can be set buffer size
-	c <- 1; c <- 2; // c <-3 Another c<-int will result in DEAD LOACK
+	c <- 1
+	c <- 2 // c <-3 Another c<-int will result in DEAD LOACK
 	fmt.Println(<-c)
 	fmt.Println(<-c)
 
@@ -247,6 +249,8 @@ func main() {
 	fmt.Println(c2.Value("hoge"))
 
 	ExamplePingPong()
+
+	fmt.Printf("decimal: %d -> binary: %b -> hex: %#x\n", 42, 42, 42)
 }
 
 type SafeCounter struct {
@@ -255,13 +259,13 @@ type SafeCounter struct {
 }
 
 func (c *SafeCounter) Inc(key string) {
-	c.mux.Lock()    // Lock so only one goroutine at a time can access here
+	c.mux.Lock() // Lock so only one goroutine at a time can access here
 	defer c.mux.Unlock()
 	c.v[key]++
 }
 
 func (c *SafeCounter) Value(key string) int {
-	c.mux.Lock()    // Lock so only one goroutine at a time can access here
+	c.mux.Lock() // Lock so only one goroutine at a time can access here
 	defer c.mux.Unlock()
 	return c.v[key]
 }
@@ -270,7 +274,7 @@ func fibonacci(n int, c chan int) {
 	x, y := 0, 1
 	for i := 0; i < n; i++ {
 		c <- x
-		x, y = y, x + y
+		x, y = y, x+y
 	}
 	// Sender can close CHannel and notify that no more values
 	// will be sent.
@@ -284,14 +288,14 @@ func fibonacci2(c, quit chan int) {
 		// Blocks until one of its cases can run
 		// Chooses a channel at random if multiple are ready
 		case c <- x:
-			x, y = y, y + x
+			x, y = y, y+x
 		case <-quit:
 			fmt.Println("Quit")
 			return
 		default:
-		// run if no other case is ready
-		// can use to send/receive without blocking
-		// in this case, . will be printed wheneve there is no other channel is ready
+			// run if no other case is ready
+			// can use to send/receive without blocking
+			// in this case, . will be printed wheneve there is no other channel is ready
 			fmt.Print(".")
 		}
 	}
@@ -313,13 +317,14 @@ func say(s string) {
 }
 
 type IPAddr [4]byte
+
 // Another example of Stringers
 func (i IPAddr) String() string {
 	return fmt.Sprintf("%v.%v.%v.%v", i[0], i[1], i[2], i[3])
 }
 
 func typeSwitch(a Abser) {
-	switch v := a.(type) {    // switch case by the given concrete tpe
+	switch v := a.(type) { // switch case by the given concrete tpe
 	case *Vertex:
 		fmt.Printf("This is Vertex: %v \n", v)
 	case MyFloat:
@@ -374,15 +379,16 @@ func ExamplePingPong() {
 	go func() {
 		defer wg.Done()
 		for {
-			p, ok := <-chA; if !ok {
+			p, ok := <-chA
+			if !ok {
 				break
 			}
 			fmt.Printf("chA: p.Counter = %v\n", p.Counter)
-			p.Counter ++
-			if p.Counter >6 {
+			p.Counter++
+			if p.Counter > 6 {
 				break
 			}
-			chB<-p
+			chB <- p
 		}
 		close(chB)
 	}()
@@ -390,7 +396,8 @@ func ExamplePingPong() {
 	go func() {
 		defer wg.Done()
 		for {
-			p, ok:=<-chB ; if !ok {
+			p, ok := <-chB
+			if !ok {
 				break
 			}
 			fmt.Printf("chB: p.Counter =%v\n", p.Counter)
@@ -398,7 +405,7 @@ func ExamplePingPong() {
 			if p.Counter > 6 {
 				break
 			}
-			chA<-p
+			chA <- p
 		}
 		close(chA)
 	}()
