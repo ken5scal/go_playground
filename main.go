@@ -249,8 +249,18 @@ func main() {
 	fmt.Println(c2.Value("hoge"))
 
 	ExamplePingPong()
+	for i := 60; i < 120; i++ {
+		fmt.Printf("decimal: %d -> binary: %b -> hex: %#x, utf8: %q\n", i, i, i, i)
+	}
+	hell0 := makeHello()
 
-	fmt.Printf("decimal: %d -> binary: %b -> hex: %#x\n", 42, 42, 42)
+	fmt.Printf("Type: %T, then: %v\n", hell0, hell0)
+}
+
+func makeHello() func() string {
+	return func() string {
+		return "Hello world"
+	}
 }
 
 type SafeCounter struct {
