@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"log"
 	"bufio"
-	"os"
 )
 
 func main() {
@@ -31,31 +30,42 @@ func main() {
 	fmt.Println(myGreeting)
 
 	//	HASH
-	res, err := http.Get("http://www-01.sil.org/linguistics/wordlists/english/wordlist/wordsEn.txt")
+	//res, err := http.Get("http://www-01.sil.org/linguistics/wordlists/english/wordlist/wordsEn.txt")
+	res, err := http.Get("http://www.gutenberg.org/files/2701/old/moby10b.txt")
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	words := make(map[string]string)
+	buckets := make([]int, 200)
+	defer res.Body.Close()
+
 	sc := bufio.NewScanner(res.Body)
 	sc.Split(bufio.ScanWords)
+
 	for sc.Scan() {
-		words[sc.Text()] = ""
+		hash := HashBuckert(sc.Text())
+		buckets[hash]++
+		//words[sc.Text()] = ""
 	}
+	fmt.Println(buckets[65:123])
 
-	if err := sc.Err(); err != nil {
-		fmt.Fprintln(os.Stderr, "reading input:", err)
-	}
-
-	i := 0
-	for k, _ := range words {
-		fmt.Println(k)
-		if i == 200 {
-			break
-		}
-		i++
-	}
+	//if err := sc.Err(); err != nil {
+	//	fmt.Fprintln(os.Stderr, "reading input:", err)
+	//}
+	//
+	//i := 0
+	//for k, _ := range words {
+	//	fmt.Println(k)
+	//	if i == 200 {
+	//		break
+	//	}
+	//	i++
+	//}
 
 	//str := string(bs)
 	//fmt.Println(str)
+}
+
+func HashBuckert(word string) int {
+	return int(word[0])
 }
