@@ -43,11 +43,11 @@ func main() {
 	sc.Split(bufio.ScanWords)
 
 	for sc.Scan() {
-		hash := HashBuckert(sc.Text())
+		hash := HashBuckert(sc.Text(), 12)
 		buckets[hash]++
 		//words[sc.Text()] = ""
 	}
-	fmt.Println(buckets[65:123])
+	fmt.Println(buckets)
 
 	//if err := sc.Err(); err != nil {
 	//	fmt.Fprintln(os.Stderr, "reading input:", err)
@@ -66,6 +66,10 @@ func main() {
 	//fmt.Println(str)
 }
 
-func HashBuckert(word string) int {
-	return int(word[0])
+func HashBuckert(word string, buckets int) int {
+	var sum int
+	for _, v := range word {
+		sum += int(v)
+	}
+	return sum % buckets
 }
