@@ -36,18 +36,27 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	buckets := make([]int, 200)
 	defer res.Body.Close()
+
+	buckets := make([][]string, 12)
+	for i := 0; i < 12; i++ {
+		buckets = append(buckets, []string{})
+	}
 
 	sc := bufio.NewScanner(res.Body)
 	sc.Split(bufio.ScanWords)
 
 	for sc.Scan() {
-		hash := HashBuckert(sc.Text(), 12)
-		buckets[hash]++
+		word := sc.Text()
+		key := HashBucket(word, 12)
+		buckets[key] = append(buckets[key], word)
 		//words[sc.Text()] = ""
 	}
-	fmt.Println(buckets)
+
+	for i := 0; i < 12; i++ {
+		fmt.Println(i, " - ", len(buckets[i]))
+	}
+	fmt.Println(buckets[6])
 
 	//if err := sc.Err(); err != nil {
 	//	fmt.Fprintln(os.Stderr, "reading input:", err)
@@ -64,12 +73,26 @@ func main() {
 
 	//str := string(bs)
 	//fmt.Println(str)
+
+	letter := 'A'
+	fmt.Printf("%v, %T \n", letter, letter)
+
+	word := "Apple"
+	fmt.Printf("%v, %T \n", word, word)
+	letter = rune(word[0])
+	fmt.Println(letter)
+
+	GO := HashBucket("Go", 12)
+	fmt.Println(GO)
 }
 
-func HashBuckert(word string, buckets int) int {
+func HashBucket(word string, buckets int) int {
 	var sum int
 	for _, v := range word {
 		sum += int(v)
 	}
 	return sum % buckets
+	//letter := int(word[0])
+	//bucket := letter % buckets
+	//return bucket
 }
