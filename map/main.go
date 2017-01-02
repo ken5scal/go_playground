@@ -86,6 +86,7 @@ func main() {
 	fmt.Println(GO)
 }
 
+// HashBucket hogehoge
 func HashBucket(word string, buckets int) int {
 	var sum int
 	for _, v := range word {
