@@ -3,9 +3,6 @@ package main
 import (
 	"fmt"
 	"math"
-	"net/http"
-	"log"
-	"io/ioutil"
 )
 
 type Shape interface {
@@ -29,7 +26,8 @@ func (c Circle) area() float64 {
 	return c.radius * c.radius * math.Pi
 }
 
-func info(z Shape) { // <- Interface Shape!
+func info(z Shape) {
+	// <- Interface Shape!
 	fmt.Println(z)
 	fmt.Println(z.area())
 }
@@ -40,11 +38,4 @@ func main() {
 
 	c := Circle{10}
 	info(c)
-
-	res, err := http.Get("http://www-01.sil.org/linguistics/wordlists/english/wordlist/wordsEn.txt")
-	if err != nil {
-		log.Fatalln(err)
-	}
-	bs, _ := ioutil.ReadAll(res.Body)
-	fmt.Println(string(bs))
 }
