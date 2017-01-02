@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math"
+	"sort"
 )
 
 type Shape interface {
@@ -32,10 +33,28 @@ func info(z Shape) {
 	fmt.Println(z.area())
 }
 
+type IntSlice []int
+func (p IntSlice) Len() int           { return len(p) }
+func (p IntSlice) Less(i, j int) bool { return p[i] < p[j] }
+func (p IntSlice) Swap(i, j int)      { p[i], p[j] = p[j], p[i] }
+
 func main() {
 	s := Square{10}
 	info(s)
 
 	c := Circle{10}
 	info(c)
+
+	type peoplle []string
+	studyGroup := peoplle{"Zeno", "john", "Al", "Jenny"}
+	sort.Sort(sort.Reverse(sort.StringSlice(studyGroup)))
+	fmt.Println(studyGroup)
+
+	//s := []string{"Zeno", "john", "Al", "Jenny"}
+	n := []int{7,4,8,2,9,19,12,32,3}
+	slice := sort.IntSlice(n)
+	slice.Sort()
+	fmt.Println(slice)
+	sort.Sort(sort.Reverse(slice))
+	fmt.Println(slice)
 }
