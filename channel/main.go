@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"time"
-	"sync"
 )
 
 func main() {
@@ -15,7 +14,7 @@ func main() {
 
 	go func() {
 		for i := 0; i < 10; i++ {
-			c <- i  // blocks until fmt.println(<-c) is executed
+			c <- i // blocks until fmt.println(<-c) is executed
 		}
 	}()
 
