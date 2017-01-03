@@ -50,7 +50,7 @@ func incrementor(s string) {
 	for i := 0; i < 20; i++ {
 		// % go run -race main.go
 		// <- Found 1 data race(s) (exit status 66) : Race Condition!
-		// So DO MUTEX(Only one person can access to it <- atomicity)
+		// So DO MUTEX(Only one person can access to the goroutine <- atomicity)
 		time.Sleep(time.Duration(rand.Intn(3))*time.Millisecond)
 
 		// Mutex Pattern1
