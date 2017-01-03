@@ -40,33 +40,4 @@ func main() {
 	//for n := range c2 { // Wait until it receives.
 	//	fmt.Println(n)
 	//}
-
-	c3 := make(chan int)
-	var wg sync.WaitGroup
-	wg.Add(2)
-
-	go func() {
-		//wg.Add(1) // This is bad, because goroutine is trying to access shared variable
-		for i := 0; i < 10; i++ {
-			c3 <- i
-		}
-		wg.Done()
-	}()
-
-	go func() {
-		//wg.Add(1) // This is bad, because goroutine is trying to access shared variable
-		for i := 0; i < 10; i++ {
-			c3 <- i
-		}
-		wg.Done()
-	}()
-
-	go func() {
-		wg.Wait()
-		close(c3)
-	}()
-
-	for n := range c3 {
-		fmt.Println(n)
-	}
 }
