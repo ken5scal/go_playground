@@ -5,10 +5,12 @@ import (
 	"sync"
 	"time"
 	"math/rand"
+	"sync/atomic"
 )
 
 var wg sync.WaitGroup
 var counter int
+var counterATOM int64
 var mutex sync.Mutex
 
 func main() {
@@ -49,13 +51,18 @@ func incrementor(s string) {
 		// % go run -race main.go
 		// <- Found 1 data race(s) (exit status 66) : Race Condition!
 		// So DO MUTEX
-		mutex.Lock()
 		time.Sleep(time.Duration(rand.Intn(3))*time.Millisecond)
+
+		// Mutex Pattern1
+		atomic.AddInt64(&counterATOM, 1)
+
+		// Mutex Pattern2(Repetittive way)
+		mutex.Lock()
 		x := counter
 		x++
 		counter = x
 		// Or just counter ++
-		fmt.Println(s, i, "Counter: ", counter)
+		fmt.Println(s, i, "Counter: ", counter, "CounterATOM: ", counterATOM)
 		mutex.Unlock()
 	}
 	wg.Done()
