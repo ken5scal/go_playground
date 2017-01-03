@@ -6,6 +6,19 @@ import (
 	"sort"
 )
 
+type vehicles interface {}
+type vehicle struct {
+	Seats int
+	MaxSpeed int
+	Color string
+}
+
+type car struct {
+	vehicle
+	Wheels int
+	Doors int
+}
+
 type Shape interface {
 	area() float64
 }
@@ -23,9 +36,15 @@ type Circle struct {
 	radius float64
 }
 
+// Value Receiver
 func (c Circle) area() float64 {
 	return c.radius * c.radius * math.Pi
 }
+
+// pointer receiver
+//func (c *Circle) area() float64 {
+//	return c.radius * c.radius * math.Pi
+//}
 
 func info(z Shape) {
 	// <- Interface Shape!
@@ -44,6 +63,7 @@ func main() {
 
 	c := Circle{10}
 	info(c)
+	info(&c)
 
 	type peoplle []string
 	studyGroup := peoplle{"Zeno", "john", "Al", "Jenny"}
@@ -57,4 +77,8 @@ func main() {
 	fmt.Println(slice)
 	sort.Sort(sort.Reverse(slice))
 	fmt.Println(slice)
+
+	prius := car{}
+	rides := []vehicles{prius}
+	fmt.Println(rides)
 }
