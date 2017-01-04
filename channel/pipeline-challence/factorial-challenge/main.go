@@ -12,21 +12,34 @@ func main() {
 		fmt.Println("Total:", n)
 	}
 
-
 	in := gen()
 	f2 := factorialPipeline(in)
 	for n := range f2 {
-		fmt.Println("Total:", n)
+		fmt.Println(n)
 	}
 }
 
 func gen() <-chan int {
 	out := make(chan int)
+	go func() {
+		for i := 0; i< 10; i++ {
+			for j := 3; j < 13; j++ {
+				out <- j
+			}
+		}
+		close(out)
+	}()
 	return out
 }
 
 func factorialPipeline(ints <-chan int) <-chan int {
 	out := make(chan int)
+	go func () {
+		for n:= range ints{
+			out <- factorialNormal(n)
+		}
+		close(out)
+	}()
 	return out
 }
 

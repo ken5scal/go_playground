@@ -10,15 +10,15 @@ func main() {
 	//fmt.Println(<-out) // 4
 	//fmt.Println(<-out) // 9
 
-	for n := range sq(sq(gen(2,3))) {
+	for n := range sq(sq(gen(2, 3))) {
 		fmt.Println(n) // 16 , then 81
 	}
 }
 
 func gen(nums ...int) <-chan int {
 	out := make(chan int)
-	go func()   {
-		for _, n:= range nums{
+	go func() {
+		for _, n := range nums {
 			out <- n
 		}
 		close(out)
@@ -29,8 +29,8 @@ func gen(nums ...int) <-chan int {
 func sq(in <-chan int) <-chan int {
 	out := make(chan int)
 	go func() {
-		for n:= range in{
-			out <- n*n
+		for n := range in {
+			out <- n * n
 		}
 		close(out)
 	}()
