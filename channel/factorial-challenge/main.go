@@ -19,16 +19,16 @@ func factorial(n int) int {
 
 func factorial2(n int) int {
 	c := make(chan int)
-	total := 1
-	go func() {
-		for i := n; i > 0; i-- {
-			c<-i
-		}
-		close(c)
-	}()
-
-	for i := range c {
-		total *= i
-	}
-	return total
+	//total := 1
+	//go func() {
+	//	for i := n; i > 0; i-- {
+	//		c<-i
+	//	}
+	//	close(c)
+	//}()
+	//
+	//for i := range c {
+	//	total *= i
+	//}
+	//return total
 }
