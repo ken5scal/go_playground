@@ -9,14 +9,14 @@ func main() {
 	in := gen(2, 3)
 
 	// Fan Out
-	c1 := sq(in)
-	c2 := sq(in)
+	c1 := sq(in) // <- worker
+	c2 := sq(in) // <- worker
 	
 	for n := range merge(c1, c2) {
 		fmt.Println(n) // 4 then 9, or 9 then 4
 	}
 }
-func merge(cs ...<-chan int) <-chan int {
+func merge(cs ...chan int) chan int {
 	out := make(chan int)
 	var wg sync.WaitGroup
 	wg.Add(len(cs))
@@ -28,10 +28,17 @@ func merge(cs ...<-chan int) <-chan int {
 			}
 		}(c)
 	}
+
+	// Close out once all the output goroutine are done.
+	// This must start after the wg.Add Call
+	go func() {
+		wg.Wait()
+		close(out)
+	}()
 	return out
 }
 
-func gen(nums ...int) <-chan int {
+func gen(nums ...int) chan int {
 	fmt.Printf("Type of nums %T\n", nums)
 	out := make(chan int)
 	go func() {
@@ -43,7 +50,7 @@ func gen(nums ...int) <-chan int {
 	return out
 }
 
-func sq(nums <-chan int) <- chan int {
+func sq(nums <-chan int) chan int {
 	out := make(chan int)
 	go func() {
 		for _, num := range nums {
