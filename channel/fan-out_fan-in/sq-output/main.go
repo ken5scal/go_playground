@@ -11,7 +11,7 @@ func main() {
 	// Fan Out
 	c1 := sq(in) // <- worker
 	c2 := sq(in) // <- worker
-	
+
 	for n := range merge(c1, c2) {
 		fmt.Println(n) // 4 then 9, or 9 then 4
 	}

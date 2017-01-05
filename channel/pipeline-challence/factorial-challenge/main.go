@@ -8,7 +8,7 @@ func main() {
 
 	//fmt.Println("Total: ", factorialChannel(4))
 	c := factorialChannel(4)
-	for n:= range c {
+	for n := range c {
 		fmt.Println("Total:", n)
 	}
 
@@ -22,7 +22,7 @@ func main() {
 func gen() <-chan int {
 	out := make(chan int)
 	go func() {
-		for i := 0; i< 10; i++ {
+		for i := 0; i < 10; i++ {
 			for j := 3; j < 13; j++ {
 				out <- j
 			}
@@ -34,8 +34,8 @@ func gen() <-chan int {
 
 func factorialPipeline(ints <-chan int) <-chan int {
 	out := make(chan int)
-	go func () {
-		for n:= range ints{
+	go func() {
+		for n := range ints {
 			out <- factorialNormal(n)
 		}
 		close(out)
@@ -50,7 +50,6 @@ func factorialNormal(n int) int {
 	}
 	return total
 }
-
 
 // goroutine is helpful when you have many processing to do.
 // if you want to run factorialNormal calculations for 1000 processes,

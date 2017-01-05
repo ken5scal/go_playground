@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	"sync"
-	"time"
 	"math/rand"
+	"sync"
 	"sync/atomic"
+	"time"
 )
 
 var wg sync.WaitGroup
@@ -30,18 +30,18 @@ func main() {
 
 func fuga() {
 	for i := 0; i < 10000; i++ {
-		fmt.Println("Fuga:",i )
+		fmt.Println("Fuga:", i)
 	}
 }
 func bar() {
 	for i := 0; i < 50; i++ {
-		fmt.Println("Bar:",i )
+		fmt.Println("Bar:", i)
 	}
 	wg.Done()
 }
 func foo() {
 	for i := 0; i < 50; i++ {
-		fmt.Println("Foo:",i )
+		fmt.Println("Foo:", i)
 	}
 	wg.Done()
 }
@@ -51,7 +51,7 @@ func incrementor(s string) {
 		// % go run -race main.go
 		// <- Found 1 data race(s) (exit status 66) : Race Condition!
 		// So DO MUTEX(Only one person can access to the goroutine <- atomicity)
-		time.Sleep(time.Duration(rand.Intn(3))*time.Millisecond)
+		time.Sleep(time.Duration(rand.Intn(3)) * time.Millisecond)
 
 		// Mutex Pattern1
 		atomic.AddInt64(&counterATOM, 1)

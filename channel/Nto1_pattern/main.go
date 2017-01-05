@@ -44,13 +44,13 @@ func Nto1() {
 	// semapho pattern: Something like flag, tells program what to do.
 
 	n := 10
-	c := make(chan int) // Unbuffered channel
+	c := make(chan int)     // Unbuffered channel
 	done := make(chan bool) // Semapho: indicates loop is done
 
 	for i := 0; i < n; i++ {
 		go func() {
 			for i := 0; i < 10; i++ {
-				c <- i  // blocks until fmt.println(<-c) is executed
+				c <- i // blocks until fmt.println(<-c) is executed
 			}
 			done <- true
 		}()
@@ -67,8 +67,8 @@ func Nto1() {
 	go func() {
 		//<-done
 		//<-done
-		for i := 0; i<n; i++ {
-			<- done
+		for i := 0; i < n; i++ {
+			<-done
 		}
 		close(c)
 	}()

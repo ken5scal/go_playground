@@ -1,10 +1,10 @@
 package main
 
 import (
-	"fmt"
-	"net/http"
-	"log"
 	"bufio"
+	"fmt"
+	"log"
+	"net/http"
 )
 
 func main() {
@@ -21,7 +21,7 @@ func main() {
 	v, ok := m["k1"]
 	fmt.Println("ok?:", ok, v)
 
-	var n = map[string]int{"foo" : 1, "bar":2}
+	var n = map[string]int{"foo": 1, "bar": 2}
 	fmt.Println("map", n)
 
 	var myGreeting = make(map[string]string)

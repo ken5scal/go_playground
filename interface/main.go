@@ -6,17 +6,17 @@ import (
 	"sort"
 )
 
-type vehicles interface {}
+type vehicles interface{}
 type vehicle struct {
-	Seats int
+	Seats    int
 	MaxSpeed int
-	Color string
+	Color    string
 }
 
 type car struct {
 	vehicle
 	Wheels int
-	Doors int
+	Doors  int
 }
 
 type Shape interface {
@@ -53,6 +53,7 @@ func info(z Shape) {
 }
 
 type IntSlice []int
+
 func (p IntSlice) Len() int           { return len(p) }
 func (p IntSlice) Less(i, j int) bool { return p[i] < p[j] }
 func (p IntSlice) Swap(i, j int)      { p[i], p[j] = p[j], p[i] }
@@ -71,7 +72,7 @@ func main() {
 	fmt.Println(studyGroup)
 
 	//s := []string{"Zeno", "john", "Al", "Jenny"}
-	n := []int{7,4,8,2,9,19,12,32,3}
+	n := []int{7, 4, 8, 2, 9, 19, 12, 32, 3}
 	slice := sort.IntSlice(n)
 	slice.Sort()
 	fmt.Println(slice)

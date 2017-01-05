@@ -8,7 +8,7 @@ func main() {
 
 	//fmt.Println("Total: ", factorial2(4))
 	c := factorial2(4)
-	for n:= range c {
+	for n := range c {
 		fmt.Println("Total:", n)
 	}
 }
@@ -20,7 +20,6 @@ func factorial(n int) int {
 	}
 	return total
 }
-
 
 // goroutine is helpful when you have many processing to do.
 // if you want to run factorial calculations for 1000 processes,

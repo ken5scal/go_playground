@@ -8,9 +8,9 @@ import (
 )
 
 type Person struct {
-	First  string
-	Last string	`json:"-"`
-	Age int	`json:"wisdom score"`
+	First       string
+	Last        string `json:"-"`
+	Age         int    `json:"wisdom score"`
 	notExported int
 }
 
@@ -21,7 +21,6 @@ func main() {
 	fmt.Println(bs)
 	fmt.Printf("%T \n", bs)
 	fmt.Println(string(bs))
-
 
 	fmt.Println("----Unmarshaling-----")
 	var p2 Person
