@@ -26,6 +26,7 @@ func merge(cs ...chan int) chan int {
 			for n := range ch {
 				out <- n
 			}
+			wg.Done()
 		}(c)
 	}
 
@@ -53,9 +54,10 @@ func gen(nums ...int) chan int {
 func sq(nums <-chan int) chan int {
 	out := make(chan int)
 	go func() {
-		for _, num := range nums {
+		for num := range nums {
 			out <- num * num
 		}
+		close(out)
 	}()
 	return out
 }
