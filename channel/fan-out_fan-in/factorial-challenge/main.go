@@ -15,11 +15,20 @@ Challenge #2:
 */
 func main() {
 	in := gen()
+
+	// FAN OUT
+	// Multiple functions reading from the same channel until that channel is closed
+	// Distribute work across multi-functions(3 goroutines) that all read from
 	c1 := factorial(in) //<- worker
 	c2 := factorial(in) //<- worker
 	c3 := factorial(in) //<- worker
+
+	// FAN IN
+	// Merge channel
+	var y int
 	for n := range merge(c1, c2, c3) {
-		fmt.Println(n)
+		y++
+		fmt.Println(y, "\t", n)
 	}
 }
 
@@ -56,18 +65,20 @@ func factorial(nums chan int) chan int {
 }
 
 func merge(cs ...chan int) chan int {
+	var wg sync.WaitGroup
 	out := make(chan int)
 
-	var wg sync.WaitGroup
+	output := func(c <-chan int) {
+		for n := range c {
+			out <- n
+		}
+		wg.Done()
+	}
+
 	wg.Add(len(cs))
 
 	for _, c := range cs {
-		go func(ch chan int) {
-			for n := range ch {
-				out <- n
-			}
-			wg.Done()
-		}(c)
+		go output(c)
 	}
 
 	// Close out once all the output goroutine are done.
